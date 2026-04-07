@@ -1,9 +1,13 @@
-import docker
+import logging
 
+import docker
+import httpx
+
+from app.settings import settings
 from app.schemas import ScheduleScheme
 
 
-client = docker.from_env()
+docker_client = docker.from_env()
 # Define the GPU request
 gpu_request = docker.types.DeviceRequest(
     count=-1,           # -1 is equivalent to 'all'
@@ -12,7 +16,7 @@ gpu_request = docker.types.DeviceRequest(
 
 
 async def run_task(schedule: ScheduleScheme) -> str:
-    client.containers.run(
+    docker_client.containers.run(
         image="video-ai",
         detach=False,
         volumes={
@@ -26,8 +30,19 @@ async def run_task(schedule: ScheduleScheme) -> str:
         stderr=True,
     )
     with open(f"/home/admin/video_ai/output/{schedule.id}_{schedule.camera_id}/summary.txt") as file:
-        output = file.read()
-    return output
+        summary = file.read()
+    data = {
+        "summary": summary,
+        "event": schedule.id,
+        "camera_id": schedule.camera_id
+    }
+    headers = {
+        "Authorization": f"Bearer {settings.TOKEN_BEARER}",
+        "Content-Type": "application/json"
+    }
+    async with httpx.AsyncClient(verify=False) as client:
+        response = await client.post(settings.BACKEND_URL, json=data, headers=headers)
+        logging.info(response.json())
 
 
 

@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import httpx
 from faststream import FastStream
 from faststream.rabbit import RabbitBroker
 
@@ -23,15 +22,7 @@ app = FastStream(broker)
 @broker.subscriber(settings.QUEUE_NAME)
 async def ai_request_handler(schedule: ScheduleScheme):
     try:
-        summary = await run_task(schedule)
-        data = {
-            "summary": summary,
-            "event": schedule.id,
-            "camera_id": schedule.camera_id
-        }
-        async with httpx.AsyncClient() as client:
-            response = await client.post(settings.BACKEND_URL, json=data)
-            logging.info(response.json())
+        await run_task(schedule)
     except Exception as e:
         logging.warning(f"{e}")
 

@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     RABBITMQ_DEFAULT_PASS: str
 
     BACKEND_URL: str
+    TOKEN_BEARER: str
 
     @property
     def rabbitmq_url(self) -> str:
