@@ -26,8 +26,13 @@ async def ai_request_handler(schedule: ScheduleScheme):
 
 
 async def main():
+    test_dict = {
+        "id": 9759,
+        "date": "2026-04-06",
+        "camera_id": 40,
+    }
     # await app.run()
-    schedule: ScheduleScheme = ScheduleScheme(id=9759, date=(2026, 4, 6), camera_id=40)
+    schedule: ScheduleScheme = ScheduleScheme.model_validate(test_dict)
     await run_task(schedule)
 
 
