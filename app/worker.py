@@ -4,6 +4,11 @@ from app.schemas import ScheduleScheme
 
 
 client = docker.from_env()
+# Define the GPU request
+gpu_request = docker.types.DeviceRequest(
+    count=-1,           # -1 is equivalent to 'all'
+    capabilities=[['gpu']] # Requests the 'gpu' capability
+)
 
 
 async def run_task(schedule: ScheduleScheme):
@@ -17,7 +22,9 @@ async def run_task(schedule: ScheduleScheme):
             '/home/admin/video_ai/models': {'bind': '/app/models', 'mode': 'ro'},
         },
         remove=True,
-        
+        device_requests=[gpu_request],
+        stdout=True,
+        stderr=True,
     )
     print(container)
 
