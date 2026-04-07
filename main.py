@@ -27,7 +27,7 @@ async def ai_request_handler(schedule: ScheduleScheme):
 
 async def main():
     # await app.run()
-    schedule: ScheduleScheme = ScheduleScheme(9759, (2026, 4, 6), 40)
+    schedule: ScheduleScheme = ScheduleScheme(id=9759, date=(2026, 4, 6), camera_id=40)
     await run_task(schedule)
 
 
