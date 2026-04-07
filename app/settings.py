@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     RABBITMQ_DEFAULT_USER: str
     RABBITMQ_DEFAULT_PASS: str
 
+    BACKEND_URL: str
+
     @property
     def rabbitmq_url(self) -> str:
         return (
