@@ -16,7 +16,7 @@ gpu_request = docker.types.DeviceRequest(
 
 
 def run_task(schedule: ScheduleScheme) -> str:
-    docker_client.containers.run(
+    container = docker_client.containers.run(
         image="video-ai",
         detach=False,
         volumes={
@@ -29,6 +29,7 @@ def run_task(schedule: ScheduleScheme) -> str:
         stdout=True,
         stderr=True,
     )
+    print(str(container))
     with open(f"/home/admin/video_ai/output/{schedule.id}_{schedule.camera_id}/summary.txt") as file:
         summary = file.read()
     data = {
