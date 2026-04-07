@@ -33,7 +33,8 @@ async def main():
     }
     # await app.run()
     schedule: ScheduleScheme = ScheduleScheme.model_validate(test_dict)
-    await run_task(schedule)
+    test_output = await run_task(schedule)
+    print(test_output)
 
 
 if __name__ == "__main__":

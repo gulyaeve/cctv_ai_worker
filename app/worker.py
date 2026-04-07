@@ -11,8 +11,8 @@ gpu_request = docker.types.DeviceRequest(
 )
 
 
-async def run_task(schedule: ScheduleScheme):
-    container = client.containers.run(
+async def run_task(schedule: ScheduleScheme) -> str:
+    client.containers.run(
         image="video-ai",
         # command=["echo hello world"],
         detach=False,
@@ -26,7 +26,8 @@ async def run_task(schedule: ScheduleScheme):
         stdout=True,
         stderr=True,
     )
-    print(container)
+    with open(f"~/video_ai/output/{schedule.id}_{schedule.camera_id}/summary.txt") as output:
+        return output
 
 
 
