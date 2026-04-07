@@ -1,0 +1,12 @@
+services:
+  cctv_ai_worker:
+    image: cctv_ai_worker
+    build:
+      context: .
+    # volumes:
+    #   - /home/user/screenshots:/screenshots
+    container_name: cctv_ai_worker
+    env_file:
+      - .env
+    command: ["python", "main.py"]
+    network_mode: host
