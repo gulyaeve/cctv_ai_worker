@@ -26,7 +26,7 @@ async def run_task(schedule: ScheduleScheme) -> str:
         stdout=True,
         stderr=True,
     )
-    with open(f"~/video_ai/output/{schedule.id}_{schedule.camera_id}/summary.txt") as output:
+    with open(f"/home/admin/video_ai/output/{schedule.id}_{schedule.camera_id}/summary.txt") as output:
         return output.readlines()
 
 
