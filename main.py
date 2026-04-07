@@ -22,7 +22,7 @@ app = FastStream(broker)
 @broker.subscriber(settings.QUEUE_NAME)
 async def ai_request_handler(schedule: ScheduleScheme):
     try:
-        await run_task(schedule)
+        run_task(schedule)
     except Exception as e:
         logging.warning(f"{e}")
 

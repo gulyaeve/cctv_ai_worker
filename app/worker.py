@@ -15,7 +15,7 @@ gpu_request = docker.types.DeviceRequest(
 )
 
 
-async def run_task(schedule: ScheduleScheme) -> str:
+def run_task(schedule: ScheduleScheme) -> str:
     docker_client.containers.run(
         image="video-ai",
         detach=False,
@@ -40,8 +40,8 @@ async def run_task(schedule: ScheduleScheme) -> str:
         "Authorization": f"Bearer {settings.TOKEN_BEARER}",
         "Content-Type": "application/json"
     }
-    async with httpx.AsyncClient(verify=False) as client:
-        response = await client.post(settings.BACKEND_URL, json=data, headers=headers)
+    with httpx.Client(verify=False, headers=headers) as client:
+        response = client.post(settings.BACKEND_URL, json=data)
         logging.info(response.json())
 
 
